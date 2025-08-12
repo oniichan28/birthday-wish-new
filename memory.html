@@ -7,511 +7,72 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        * { box-sizing: border-box; margin:0; padding:0; font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
         body {
             background: linear-gradient(135deg, #ffcee6 0%, #ffd6f1 50%, #e4f9ff 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            min-height: 100vh; overflow-x:hidden; position:relative;
         }
-
-        .confetti {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ffd1f9;
-            top: -20px;
-            opacity: 0;
-        }
-
-        .scrapbook-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9eda' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.7;
-            z-index: -1;
-        }
-
-        .memory-lane-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .header h1 {
-            font-size: 3.5rem;
-            color: #ff4e91;
-            margin-bottom: 1rem;
-            font-family: 'Pacifico', cursive;
-            text-shadow: 3px 3px 0px rgba(255, 165, 213, 0.5);
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            color: #8858a3;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 1rem;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
-        }
-
-        .gallery-container {
-            position: relative;
-            margin: 2rem 0;
-        }
-
-        .slideshow-controls {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeIn 1s forwards 1s;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            margin: 0 0.5rem;
-            background: linear-gradient(45deg, #ff6ec4, #7873f5);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(255, 110, 196, 0.5);
-        }
-
-        .btn:hover {
-            background: linear-gradient(45deg, #7873f5, #ff6ec4);
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 110, 196, 0.7);
-        }
-
-        .btn i {
-            margin-right: 0.5rem;
-        }
-
-        .gallery {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding: 1.5rem 0;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: #ff6ec4 #ffcee6;
-        }
-
-        .gallery::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .gallery::-webkit-scrollbar-track {
-            background: #ffcee6;
-            border-radius: 10px;
-        }
-
-        .gallery::-webkit-scrollbar-thumb {
-            background: #ff6ec4;
-            border-radius: 10px;
-        }
-
-        .memory-card {
-            flex: 0 0 auto;
-            width: 300px;
-            height: 400px;
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
-            transform: translateY(50px) rotate(var(--rotate, 0deg));
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 8px solid white;
-        }
-
-        .memory-card.visible {
-            transform: translateY(0) rotate(var(--rotate, 0deg));
-            opacity: 1;
-        }
-
-        .memory-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .memory-card:hover .memory-img {
-            transform: scale(1.08);
-        }
-
-        .memory-caption {
-            position: absolute;
-            bottom: -100%;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 105, 180, 0.85);
-            color: white;
-            padding: 1.2rem;
-            transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-            font-size: 1.1rem;
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-        }
-
-        .memory-card:hover .memory-caption {
-            bottom: 0;
-        }
-
-        .memory-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 50%, rgba(255, 255, 255, 0.2) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
-        .memory-card:hover::before {
-            opacity: 1;
-        }
-
-        .card-tape {
-            position: absolute;
-            width: 100px;
-            height: 35px;
-            background: rgba(255, 255, 255, 0.8);
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%) rotate(var(--rotate, 2deg));
-            z-index: 2;
-            box-shadow: 0 0 10px rgba(255, 20, 147, 0.2);
-        }
-
-        .card-sticker {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            z-index: 3;
-            bottom: 10px;
-            right: 10px;
-            transform: rotate(15deg);
-            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
-            animation: bounce 2s infinite;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 3rem;
-        }
-
-        #nextButton {
-            background: linear-gradient(45deg, #ff4e91, #ff9a8b);
-            font-size: 1.1rem;
-            padding: 1rem 2rem;
-            position: relative;
-            overflow: hidden;
-            animation: pulse 2s infinite;
-        }
-
-        #nextButton::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-
-        #nextButton:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 78, 145, 0.5);
-        }
-
-        #backButton {
-            background: linear-gradient(45deg, #a485ff, #75c6ff);
-        }
-
-        .sticker {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            z-index: 5;
-            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
-            pointer-events: none;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .sticker1 {
-            top: 10%;
-            left: 5%;
-            animation-delay: 0.2s;
-        }
-
-        .sticker2 {
-            bottom: 15%;
-            right: 5%;
-            animation-delay: 0.5s;
-        }
-
-        .sticker3 {
-            bottom: 30%;
-            left: 10%;
-            animation-delay: 0.8s;
-        }
-
-        .sticker4 {
-            top: 20%;
-            right: 10%;
-            animation-delay: 1.2s;
-        }
-
-        .balloon {
-            position: fixed;
-            width: 60px;
-            height: 70px;
-            background: radial-gradient(circle at 30% 30%, #ff7eb9, #ff1493);
-            border-radius: 50%;
-            box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.1);
-            animation: floatUp 15s linear infinite;
-            z-index: -1;
-        }
-
-        .balloon::before {
-            content: "";
-            position: absolute;
-            width: 2px;
-            height: 80px;
-            background: rgba(0, 0, 0, 0.2);
-            top: 100%;
-            left: 50%;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(5deg);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: scale(1) rotate(15deg);
-            }
-            50% {
-                transform: scale(1.2) rotate(20deg);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px rgba(255, 110, 196, 0.5);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 10px 25px rgba(255, 110, 196, 0.7);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px rgba(255, 110, 196, 0.5);
-            }
-        }
-
-        @keyframes shine {
-            0% {
-                left: -100%;
-                opacity: 0;
-            }
-            20% {
-                left: 100%;
-                opacity: 0.6;
-            }
-            100% {
-                left: 100%;
-                opacity: 0;
-            }
-        }
-
-        @keyframes heartbeat {
-            0% {
-                transform: scale(1);
-            }
-            25% {
-                transform: scale(1.05);
-            }
-            50% {
-                transform: scale(1);
-            }
-            75% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes floatDown {
-            0% {
-                transform: translateY(-10px) rotate(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-
-            .memory-card {
-                width: 250px;
-                height: 330px;
-            }
-
-            .gallery {
-                gap: 1rem;
-            }
-
-            .sticker {
-                width: 45px;
-                height: 45px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .header p {
-                font-size: 1rem;
-            }
-
-            .memory-card {
-                width: 220px;
-                height: 300px;
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: center;
-            }
-
-            #nextButton {
-                order: 0;
-            }
-
-            #backButton {
-                order: 1;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 200px;
-            }
-        }
+        .confetti { position:fixed; width:100%; height:100%; z-index:-1; pointer-events:none; }
+        .confetti-piece { position:absolute; width:10px; height:10px; background:#ffd1f9; top:-20px; opacity:0; }
+        .scrapbook-bg { position:fixed; top:0; left:0; width:100%; height:100%; background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9eda' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E"); opacity:0.7; z-index:-1; }
+        .memory-lane-container { max-width:1200px; margin:0 auto; padding:2rem; }
+        .header { text-align:center; margin-bottom:2.5rem; animation:float 3s ease-in-out infinite; }
+        .header h1 { font-size:3rem; color:#ff4e91; font-family:'Pacifico', cursive; text-shadow:3px 3px 0 rgba(255,165,213,0.5); }
+        .header p { font-size:1.05rem; color:#8858a3; max-width:800px; margin:0 auto; line-height:1.6; background: rgba(255,255,255,0.55); padding:1rem; border-radius:16px; }
+        .slideshow-controls { display:flex; justify-content:center; gap:.7rem; margin-bottom:1.5rem; opacity:0; animation:fadeIn 1s forwards 0.8s; }
+        .btn { padding:.7rem 1.2rem; background:linear-gradient(45deg,#ff6ec4,#7873f5); color:white; border:none; border-radius:25px; cursor:pointer; font-size:1rem; display:inline-flex; align-items:center; gap:.5rem; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+        .btn:active{ transform:translateY(1px); }
+        .gallery-container { position:relative; margin:1rem 0; }
+        .gallery { display:flex; gap:1.2rem; padding:1rem; overflow-x:auto; scroll-behavior:smooth; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:#ff6ec4 #ffdce9; }
+        .gallery::-webkit-scrollbar{ height:8px; }
+        .gallery::-webkit-scrollbar-track{ background:#ffdce9; border-radius:10px; }
+        .gallery::-webkit-scrollbar-thumb{ background:#ff6ec4; border-radius:10px; }
+        .memory-card { flex:0 0 auto; width:300px; height:400px; position:relative; border-radius:18px; overflow:hidden; box-shadow:0 10px 25px rgba(255,105,180,0.18); border:8px solid white; transform:translateY(40px) rotate(var(--rotate,0deg)); opacity:0; transition:all .8s cubic-bezier(.175,.885,.32,1.275); }
+        .memory-card.visible{ transform:translateY(0) rotate(var(--rotate,0deg)); opacity:1; }
+        .memory-img { width:100%; height:100%; object-fit:cover; transform:scale(1); transition:transform .5s ease; display:block; filter:blur(6px); opacity:0; transition: filter .6s ease, opacity .6s ease, transform .6s ease; }
+        .memory-img.loaded{ filter:blur(0); opacity:1; }
+        .memory-card:hover .memory-img{ transform:scale(1.08); }
+        .memory-caption { position:absolute; bottom:-100%; left:0; width:100%; background:rgba(255,105,180,0.88); color:white; padding:1rem; transition:bottom .35s cubic-bezier(.68,-.55,.27,1.55); font-size:1.05rem; border-bottom-left-radius:12px; border-bottom-right-radius:12px; }
+        .memory-card:hover .memory-caption{ bottom:0; }
+        .card-tape { position:absolute; width:100px; height:34px; background:rgba(255,255,255,0.85); top:-14px; left:50%; transform:translateX(-50%) rotate(var(--rotate,2deg)); z-index:2; box-shadow:0 0 10px rgba(255,20,147,0.12); }
+        .card-sticker{ position:absolute; width:40px; height:40px; z-index:3; bottom:10px; right:10px; transform:rotate(12deg); }
+        .navigation-buttons{ display:flex; justify-content:space-between; margin-top:2.6rem; gap:1rem; }
+        #nextButton{ background:linear-gradient(45deg,#ff4e91,#ff9a8b); padding:1rem 1.6rem; animation:pulse 2s infinite; position:relative; overflow:hidden; }
+        #nextButton::before{ content:""; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:rgba(255,255,255,0.12); transform:rotate(45deg); animation:shine 3s infinite; }
+        #backButton{ background:linear-gradient(45deg,#a485ff,#75c6ff); }
+        .sticker{ position:absolute; width:60px; height:60px; z-index:5; pointer-events:none; }
+        .sticker1{ top:10%; left:5%; }
+        .sticker2{ bottom:15%; right:5%; }
+        .sticker3{ bottom:30%; left:10%; }
+        .sticker4{ top:20%; right:10%; }
+        .balloon{ position:fixed; width:60px; height:70px; background:radial-gradient(circle at 30% 30%, #ff7eb9, #ff1493); border-radius:50%; z-index:-1; }
+        @keyframes floatUp { 0%{ transform:translateY(100vh) rotate(0); opacity:1 } 100%{ transform:translateY(-100vh) rotate(360deg); opacity:0 } }
+        @keyframes float { 0%,100%{ transform:translateY(0) rotate(0) } 50%{ transform:translateY(-10px) rotate(4deg) } }
+        @keyframes pulse { 0%{ transform:scale(1)} 50%{ transform:scale(1.03)} 100%{ transform:scale(1)} }
+        @keyframes shine { 0%{ left:-100%; opacity:0 } 20%{ left:100%; opacity:0.6 } 100%{ left:100%; opacity:0 } }
+        @media (max-width:768px){ .header h1{ font-size:2.4rem } .memory-card{ width:250px; height:340px } .sticker{ width:45px; height:45px } }
+        @media (max-width:480px){ .header h1{ font-size:2rem } .header p{ font-size:0.98rem } .memory-card{ width:220px; height:300px } .navigation-buttons{ flex-direction:column; align-items:center } .btn{ width:100%; max-width:240px } }
+        /* Fade-in class for slide active (for accessibility/control if needed) */
+        .slide { opacity:0; transition:opacity .6s ease-in-out; }
+        .slide.active { opacity:1; }
+        .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap }
     </style>
 </head>
 <body>
     <div class="scrapbook-bg"></div>
     <div class="confetti" id="confetti-container"></div>
-    
+
     <!-- Balloons -->
-    <div class="balloon" style="left: 10%; animation-duration: 18s;"></div>
-    <div class="balloon" style="left: 20%; animation-duration: 15s; animation-delay: 2s;"></div>
-    <div class="balloon" style="left: 70%; animation-duration: 20s; animation-delay: 5s;"></div>
-    <div class="balloon" style="left: 85%; animation-duration: 17s; animation-delay: 1s;"></div>
-    <div class="balloon" style="left: 40%; animation-duration: 22s; animation-delay: 7s;"></div>
-    
+    <div class="balloon" style="left:10%; animation-duration:18s;"></div>
+    <div class="balloon" style="left:20%; animation-duration:15s; animation-delay:2s;"></div>
+    <div class="balloon" style="left:70%; animation-duration:20s; animation-delay:5s;"></div>
+    <div class="balloon" style="left:85%; animation-duration:17s; animation-delay:1s;"></div>
+    <div class="balloon" style="left:40%; animation-duration:22s; animation-delay:7s;"></div>
+
     <!-- Decorative Stickers -->
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ff6ec4' /%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'%3E✨%3C/text%3E%3C/svg%3E" class="sticker sticker1" alt="Decorative sticker">
-    
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23a485ff' /%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'%3E♥%3C/text%3E%3C/svg%3E" class="sticker sticker2" alt="Decorative sticker">
-    
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ff4e91' /%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'%3E★%3C/text%3E%3C/svg%3E" class="sticker sticker3" alt="Decorative sticker">
-    
     <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c175ff' d='M50 0 L75 25 L100 0 L75 50 L100 100 L50 75 L0 100 L25 50 L0 0 L25 25 Z' /%3E%3C/svg%3E" class="sticker sticker4" alt="Decorative sticker">
 
     <div class="memory-lane-container">
@@ -521,27 +82,19 @@
         </div>
 
         <div class="slideshow-controls">
-            <button id="startSlideshow" class="btn">
-                <span>▶ Start Slideshow</span>
-            </button>
-            <button id="pauseSlideshow" class="btn" style="display: none;">
-                <span>⏸ Pause Slideshow</span>
-            </button>
+            <button id="startSlideshow" class="btn" aria-pressed="false">▶ Start Slideshow</button>
+            <button id="pauseSlideshow" class="btn" style="display:none;" aria-pressed="true">⏸ Pause Slideshow</button>
         </div>
 
         <div class="gallery-container">
-            <div class="gallery" id="memoryGallery">
+            <div class="gallery" id="memoryGallery" tabindex="0" aria-label="Memory gallery">
                 <!-- Images will be dynamically loaded here from JavaScript -->
             </div>
         </div>
 
         <div class="navigation-buttons">
-            <button id="backButton" class="btn">
-                <span>← Back to Welcome</span>
-            </button>
-            <button id="nextButton" class="btn">
-                <span>✨ Next Surprise! ✨</span>
-            </button>
+            <button id="backButton" class="btn">← Back to Welcome</button>
+            <button id="nextButton" class="btn">✨ Next Surprise! ✨</button>
         </div>
     </div>
 
@@ -549,280 +102,136 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 
     <script>
-        // Register ScrollTrigger plugin
         gsap.registerPlugin(ScrollTrigger);
 
-        // Memory data - replace placeholder images with your actual images and add your captions
         const memories = [
-            {
-                image: "image/handholding0.jpg",
-                caption: "১৭ ডিসেম্বর | কতই না সুন্দর ছিল সেই দিন টি | সেই মেঘলা আকাশ, সামনের ছোট নদী | আর জন-্মানবহীন রমণা.!",
-                isGif: false,
-                rotationAngle: -2,
-                emoji: "🌊"
-            },
-            {
-                image: "image/handholding1.png",
-                caption: "৯ই জুন। আমাদের প্রথম ঈদ একসাথে ছিলো। । ",
-                isGif: false,
-                rotationAngle: 3,
-                emoji: "🌅"
-            },
-            {
-                image: "image/handholding3.jpg",
-                caption: "২৮ ফেব্রুয়ারি । এইদিন আমার দেওয়া আংটি টার অনেক বেশি শো - অফ করছিলেন ।",
-                isGif: true,
-                rotationAngle: -1,
-                emoji: "🚗"
-            },
-            {
-                image: "image/handholding5.jpg",
-                caption: "২০ ফেব্রুয়ারি । এইদিন আমি পিক তুলবো না বলছিলাম। আপনি ও পিক না তুলে যেতে দিবেন না। পরে এই কর্নারে এনে মানুষ না থাকার সুযোগে পিক টা তুলাইছিলেন আমারে দিয়ে।",
-                isGif: false,
-                rotationAngle: 2,
-                emoji: "🍕"
-            },
-            {
-                image: "image/ring.jpg",
-                caption: "আমাদের মেচিং রিং দেখাচ্ছেন",
-                isGif: false,
-                rotationAngle: -3,
-                emoji: "🏕️"
-            },
-            {
-                image: "image/tea.jpg",
-                caption: "আমাদের ফার্স্ট চা- ডেট ছিলো।",
-                isGif: true,
-                rotationAngle: 1,
-                emoji: "🎵"
-            },
-            {
-                image: "image/handholding6.jpg",
-                caption: "উম,ম মনে পড়তেছে না কবের এটা।",
-                isGif: false,
-                rotationAngle: -2,
-                emoji: "🏰"
-            },
-            {
-                image: "image/handholding8.jpg",
-                caption: "এইটা মেবি ১২ ফেব্রুয়ারি ।সেদিনের দিন টি ছিল অনেক সুন্দর। আমরা কতই না ইনজয় করেছিলাম",
-                isGif: false,
-                rotationAngle: 2,
-                emoji: "🏖️"
-            },
-            {
-                image: "image/handholding7.jpg",
-                caption: "ভাই এই পিক টা আমার উপর জুলুম করে তুলছিলেন। পিক তুলবো না বলছি দেখে রোডের মাঝখানে বসে গেছিলেন।",
-                isGif: true,
-                rotationAngle: 3,
-                emoji: "🎂"
-            }
+            { image: "image/handholding0.jpg", caption: "১৭ ডিসেম্বর | কতই না সুন্দর ছিল সেই দিন টি | সেই মেঘলা আকাশ, সামনের ছোট নদী | আর জন-্মানবহীন রমণা.!", isGif:false, rotationAngle:-2, emoji:"🌊" },
+            { image: "image/handholding1.png", caption: "৯ই জুন। আমাদের প্রথম ঈদ একসাথে ছিলো। । ", isGif:false, rotationAngle:3, emoji:"🌅" },
+            { image: "image/handholding3.jpg", caption: "২৮ ফেব্রুয়ারি । এইদিন আমার দেওয়া আংটি টার অনেক বেশি শো - অফ করছিলেন ।", isGif:true, rotationAngle:-1, emoji:"🚗" },
+            { image: "image/handholding5.jpg", caption: "২০ ফেব্রুয়ারি । এইদিন আমি পিক তুলবো না বলছিলাম। আপনি ও পিক না তুলে যেতে দিবেন না। পরে এই কর্নারে এনে মানুষ না থাকার সুযোগে পিক টা তুলাইছিলেন আমারে দিয়ে।", isGif:false, rotationAngle:2, emoji:"🍕" },
+            { image: "image/ring.jpg", caption: "আমাদের মেচিং রিং দেখাচ্ছেন", isGif:false, rotationAngle:-3, emoji:"🏕️" },
+            { image: "image/tea.jpg", caption: "আমাদের ফার্স্ট চা- ডেট ছিলো।", isGif:true, rotationAngle:1, emoji:"🎵" },
+            { image: "image/handholding6.jpg", caption: "উম,ম মনে পড়তেছে না কবের এটা।", isGif:false, rotationAngle:-2, emoji:"🏰" },
+            { image: "image/handholding8.jpg", caption: "এইটা মেবি ১২ ফেব্রুয়ারি ।সেদিনের দিন টি ছিল অনেক সুন্দর। আমরা কতই না ইনজয় করেছিলাম", isGif:false, rotationAngle:2, emoji:"🏖️" },
+            { image: "image/handholding7.jpg", caption: "ভাই এই পিক টা আমার উপর জুলুম করে তুলছিলেন। পিক তুলবো না বলছি দেখে রোডের মাঝখানে বসে গেছিলেন।", isGif:true, rotationAngle:3, emoji:"🎂" }
         ];
 
-        // Create confetti elements
-        function createConfetti() {
-            const confettiContainer = document.getElementById('confetti-container');
-            const colors = ['#ff6ec4', '#a485ff', '#ff4e91', '#c175ff', '#75c6ff'];
-            
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti-piece';
-                
-                // Random styles
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.width = Math.random() * 15 + 5 + 'px';
-                confetti.style.height = Math.random() * 15 + 5 + 'px';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                // Animation
-                const duration = Math.random() * 3 + 3;
-                const delay = Math.random() * 5;
-                
-                confetti.style.animation = `floatDown ${duration}s ease-in ${delay}s infinite`;
-                confetti.style.opacity = Math.random();
-                
-                confettiContainer.appendChild(confetti);
+        // confetti
+        function createConfetti(){
+            const container = document.getElementById('confetti-container');
+            const colors = ['#ff6ec4','#a485ff','#ff4e91','#c175ff','#75c6ff'];
+            for(let i=0;i<90;i++){
+                const el = document.createElement('div'); el.className='confetti-piece';
+                el.style.left = Math.random()*100 + 'vw';
+                el.style.width = (Math.random()*15+5) + 'px';
+                el.style.height = (Math.random()*15+5) + 'px';
+                el.style.background = colors[Math.floor(Math.random()*colors.length)];
+                el.style.borderRadius = Math.random()>0.5? '50%':'0';
+                el.style.transform = `rotate(${Math.random()*360}deg)`;
+                const duration = Math.random()*3+3; const delay = Math.random()*5;
+                el.style.animation = `floatDown ${duration}s ease-in ${delay}s infinite`;
+                el.style.opacity = Math.random(); container.appendChild(el);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', ()=>{
             createConfetti();
-            
-            const galleryElement = document.getElementById('memoryGallery');
-            const startSlideshowBtn = document.getElementById('startSlideshow');
-            const pauseSlideshowBtn = document.getElementById('pauseSlideshow');
-            const backButton = document.getElementById('backButton');
-            const nextButton = document.getElementById('nextButton');
-            
-            let slideshowInterval;
+            const gallery = document.getElementById('memoryGallery');
+            const startBtn = document.getElementById('startSlideshow');
+            const pauseBtn = document.getElementById('pauseSlideshow');
+            const backBtn = document.getElementById('backButton');
+            const nextBtn = document.getElementById('nextButton');
+
+            let slideshowInterval = null;
             let currentSlide = 0;
 
-            // Generate memory cards
-            memories.forEach((memory, index) => {
-                const memoryCard = document.createElement('div');
-                memoryCard.className = 'memory-card';
-                memoryCard.style.setProperty('--rotate', `${memory.rotationAngle}deg`);
-                
-                const tapeElement = document.createElement('div');
-                tapeElement.className = 'card-tape';
-                tapeElement.style.setProperty('--rotate', `${memory.rotationAngle * 2}deg`);
-                
-                const imgElement = document.createElement('img');
-                imgElement.className = 'memory-img';
-                imgElement.src = memory.image;
-                imgElement.alt = `Memory ${index + 1}`;
-                
-                const captionElement = document.createElement('div');
-                captionElement.className = 'memory-caption';
-                captionElement.textContent = memory.caption;
-                
-                const stickerElement = document.createElement('div');
-                stickerElement.className = 'card-sticker';
-                stickerElement.innerHTML = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="50" fill="#ff6ec4" />
-                    <text x="50" y="65" font-family="Arial" font-size="40" text-anchor="middle" fill="white">${memory.emoji}</text>
-                </svg>`;
-                
-                memoryCard.appendChild(tapeElement);
-                memoryCard.appendChild(imgElement);
-                memoryCard.appendChild(captionElement);
-                memoryCard.appendChild(stickerElement);
-                galleryElement.appendChild(memoryCard);
+            // Create cards
+            memories.forEach((m, idx)=>{
+                const card = document.createElement('div'); card.className='memory-card slide';
+                card.style.setProperty('--rotate', `${m.rotationAngle}deg`);
+
+                const tape = document.createElement('div'); tape.className='card-tape'; tape.style.setProperty('--rotate', `${m.rotationAngle*2}deg`);
+
+                const img = document.createElement('img'); img.className='memory-img'; img.src = m.image; img.alt = `Memory ${idx+1}`; img.loading='lazy';
+                // on load -> remove blur
+                img.addEventListener('load', ()=>{ img.classList.add('loaded'); });
+
+                const caption = document.createElement('div'); caption.className='memory-caption'; caption.textContent = m.caption;
+
+                const sticker = document.createElement('div'); sticker.className='card-sticker';
+                sticker.innerHTML = `<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50' fill='#ff6ec4' /><text x='50' y='65' font-family='Arial' font-size='40' text-anchor='middle' fill='white'>${m.emoji}</text></svg>`;
+
+                card.appendChild(tape); card.appendChild(img); card.appendChild(caption); card.appendChild(sticker);
+                gallery.appendChild(card);
             });
 
-            // Make slideshow controls visible
-            document.querySelector('.slideshow-controls').style.opacity = '1';
+            // Reveal animation via IntersectionObserver
+            const observer = new IntersectionObserver((entries)=>{
+                entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+            }, { threshold:0.25 });
 
-            // Intersection Observer to animate cards as they enter viewport
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            // Observe all memory cards
-            document.querySelectorAll('.memory-card').forEach(card => {
-                observer.observe(card);
-                
-                // Add animation delay for staggered effect
-                const index = Array.from(galleryElement.children).indexOf(card);
-                card.style.animationDelay = `${0.1 * index}s`;
-                
-                // Make all cards visible initially
-                setTimeout(() => {
-                    card.classList.add('visible');
-                }, 500 + (index * 150));
+            document.querySelectorAll('.memory-card').forEach((c, i)=>{
+                observer.observe(c);
+                c.style.animationDelay = `${0.08 * i}s`;
+                setTimeout(()=> c.classList.add('visible'), 400 + (i*90));
             });
 
-            // Fixed slideshow functionality
-            function startSlideshow() {
-                startSlideshowBtn.style.display = 'none';
-                pauseSlideshowBtn.style.display = 'flex';
-                
-                // Clear any existing interval to avoid multiple slideshows
-                if (slideshowInterval) {
-                    clearInterval(slideshowInterval);
-                }
-                
-                slideshowInterval = setInterval(() => {
-                    // Move to next slide
-                    currentSlide = (currentSlide + 1) % memories.length;
-                    
-                    // Calculate the scroll position of the current slide
-                    const cards = galleryElement.querySelectorAll('.memory-card');
-                    if (cards && cards.length > 0 && cards[currentSlide]) {
-                        const cardRect = cards[currentSlide].getBoundingClientRect();
-                        const galleryRect = galleryElement.getBoundingClientRect();
-                        
-                        // Scroll to center the current card
-                        galleryElement.scrollTo({
-                            left: cards[currentSlide].offsetLeft - (galleryRect.width / 2) + (cardRect.width / 2),
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 2000); // Change slide every 3 seconds
+            // Slide helpers: center a card
+            function centerCard(index){
+                const cards = gallery.querySelectorAll('.memory-card'); if(!cards[index]) return;
+                const card = cards[index]; const galleryRect = gallery.getBoundingClientRect();
+                gallery.scrollTo({ left: card.offsetLeft - (galleryRect.width/2) + (card.offsetWidth/2), behavior: 'smooth' });
+                // mark active class
+                cards.forEach(c=> c.classList.remove('active'));
+                card.classList.add('active');
             }
 
-            function pauseSlideshow() {
-                pauseSlideshowBtn.style.display = 'none';
-                startSlideshowBtn.style.display = 'flex';
-                
-                // Clear interval to stop slideshow
-                if (slideshowInterval) {
-                    clearInterval(slideshowInterval);
-                    slideshowInterval = null;
-                }
+            // Auto slideshow - 3000ms (3s)
+            function startSlideshow(){
+                startBtn.style.display='none'; pauseBtn.style.display='inline-flex';
+                if(slideshowInterval) clearInterval(slideshowInterval);
+                slideshowInterval = setInterval(()=>{ currentSlide = (currentSlide+1) % memories.length; centerCard(currentSlide); }, 3000);
+            }
+            function pauseSlideshow(){
+                pauseBtn.style.display='none'; startBtn.style.display='inline-flex';
+                if(slideshowInterval){ clearInterval(slideshowInterval); slideshowInterval = null; }
             }
 
-            // Event listeners for slideshow controls
-            startSlideshowBtn.addEventListener('click', startSlideshow);
-            pauseSlideshowBtn.addEventListener('click', pauseSlideshow);
+            startBtn.addEventListener('click', startSlideshow);
+            pauseBtn.addEventListener('click', pauseSlideshow);
 
-            // Event listeners for navigation buttons
-            backButton.addEventListener('click', function() {
-                window.location.href = 'index.html'; // Adjust this to your welcome page URL
-            });
+            // Navigation buttons
+            backBtn.addEventListener('click', ()=>{ window.location.href = 'index.html'; });
+            nextBtn.addEventListener('click', ()=>{ window.location.href = 'cake.html'; });
 
-            nextButton.addEventListener('click', function() {
-                window.location.href = 'cake.html'; // Adjust this to your next surprise page URL
-            });
+            // Swipe support for mobile
+            let touchStartX = 0; let touchEndX = 0; let isPointerDown=false; let pointerStartX=0;
 
-            // Scroll animations with GSAP
-            gsap.from('.header', {
-                duration: 1,
-                y: -50,
-                opacity: 0,
-                ease: 'back.out(1.7)'
-            });
+            gallery.addEventListener('touchstart', (e)=>{ touchStartX = e.changedTouches[0].clientX; });
+            gallery.addEventListener('touchend', (e)=>{ touchEndX = e.changedTouches[0].clientX; handleSwipe(); });
 
-            gsap.from('.navigation-buttons', {
-                duration: 1,
-                y: 50,
-                opacity: 0,
-                delay: 0.5,
-                ease: 'power3.out'
-            });
+            // pointer events for desktop dragging (optional)
+            gallery.addEventListener('pointerdown', (e)=>{ isPointerDown=true; pointerStartX = e.clientX; gallery.style.cursor='grabbing'; });
+            gallery.addEventListener('pointerup', (e)=>{ if(!isPointerDown) return; isPointerDown=false; gallery.style.cursor='auto'; const diff = pointerStartX - e.clientX; if(Math.abs(diff) > 50){ if(diff > 0){ currentSlide = (currentSlide+1) % memories.length; } else { currentSlide = (currentSlide-1+memories.length)%memories.length; } centerCard(currentSlide); } });
 
-            // Add animation to stickers
-            gsap.utils.toArray('.sticker').forEach(sticker => {
-                gsap.to(sticker, {
-                    rotation: 'random(-20, 20)',
-                    duration: 'random(2, 4)',
-                    repeat: -1,
-                    yoyo: true,
-                    ease: 'sine.inOut'
-                });
-            });
+            function handleSwipe(){ const diff = touchStartX - touchEndX; if(Math.abs(diff) < 40) return; if(diff > 0){ currentSlide = (currentSlide+1) % memories.length; } else { currentSlide = (currentSlide-1 + memories.length) % memories.length; } centerCard(currentSlide); }
 
-            // Create hover effect for memory cards
-            document.querySelectorAll('.memory-card').forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    gsap.to(this, {
-                        scale: 1.05,
-                        boxShadow: '0 15px 35px rgba(255, 105, 180, 0.5)',
-                        duration: 0.3
-                    });
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    gsap.to(this, {
-                        scale: 1,
-                        boxShadow: '0 10px 25px rgba(255, 105, 180, 0.3)',
-                        duration: 0.3
-                    });
-                });
-            });
+            // keyboard navigation
+            gallery.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowRight'){ currentSlide = (currentSlide+1) % memories.length; centerCard(currentSlide); } else if(e.key === 'ArrowLeft'){ currentSlide = (currentSlide-1 + memories.length) % memories.length; centerCard(currentSlide); } });
 
-            // Auto scroll to show the gallery
-            setTimeout(() => {
-                const galleryContainer = document.querySelector('.gallery-container');
-                galleryContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 2000);
+            // initial center first card after a moment
+            setTimeout(()=> centerCard(0), 600);
+
+            // GSAP entrance
+            gsap.from('.header', { duration:1, y:-40, opacity:0, ease:'back.out(1.6)'});
+            gsap.from('.navigation-buttons', { duration:1, y:30, opacity:0, delay:0.5, ease:'power3.out' });
+            gsap.utils.toArray('.sticker').forEach(s=> gsap.to(s, { rotation: 'random(-20,20)', duration: 'random(2,4)', repeat:-1, yoyo:true, ease:'sine.inOut' }));
+
+            // ensure images show nicely if some fail: mark loaded for display fallback
+            document.querySelectorAll('.memory-img').forEach(img => { img.addEventListener('error', ()=>{ img.classList.add('loaded'); img.alt = 'Image not found'; img.style.objectFit = 'cover'; img.style.background = '#ffeef8'; }); });
+
+            // auto-scroll to gallery on load
+            setTimeout(()=> document.querySelector('.gallery-container').scrollIntoView({ behavior:'smooth', block:'center' }), 900);
         });
     </script>
 </body>
